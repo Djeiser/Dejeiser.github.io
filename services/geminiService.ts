@@ -1,8 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Exercise, ExerciseType } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const SYSTEM_INSTRUCTION = `
 Eres un maestro de matemáticas experto de un colegio de primaria en Andalucía, España.
 Tu audiencia son niños de 10 años (5º de Primaria).
@@ -32,6 +30,8 @@ Devuelve SIEMPRE un JSON válido.
 `;
 
 export const generateExercise = async (): Promise<Exercise> => {
+  // Inicializamos aquí para evitar errores si process.env falla al cargar la página inicialmente
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const modelId = "gemini-2.5-flash"; // Fast and capable for this logic
   
   const response = await ai.models.generateContent({
